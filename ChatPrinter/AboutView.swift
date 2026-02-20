@@ -54,7 +54,7 @@ struct AboutView: View {
                 HStack(alignment: .top, spacing: 8) {
                     Text("•")
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("感谢富士通公司提供的 reMarkable 电子纸设备")
+                        Text("感谢富士通公司提供的 Quaderno 系列电子纸设备")
                         Text("这是一个可靠的工具，让阅读更加舒适")
                     }
                     .font(.caption)
