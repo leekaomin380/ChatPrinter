@@ -332,7 +332,7 @@ struct ScreenReaderTextWrapper: NSViewRepresentable {
             
             // 渲染无序列表
             let listRegex = try NSRegularExpression(pattern: "^[\\*\\-\\+]\\s+(.+)$", options: .anchorsMatchLines)
-            var listMatches = listRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            let listMatches = listRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
             for match in listMatches.reversed() {
                 guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
                 let fullRange = Range(match.range, in: processedString)!
@@ -345,7 +345,7 @@ struct ScreenReaderTextWrapper: NSViewRepresentable {
             
             // 渲染粗体
             let boldRegex = try NSRegularExpression(pattern: "\\*\\*(.+?)\\*\\*", options: [])
-            var boldMatches = boldRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            let boldMatches = boldRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
             for match in boldMatches.reversed() {
                 guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
                 let fullRange = Range(match.range, in: processedString)!
@@ -361,7 +361,7 @@ struct ScreenReaderTextWrapper: NSViewRepresentable {
             
             // 渲染斜体
             let italicRegex = try NSRegularExpression(pattern: "\\*(.+?)\\*", options: [])
-            var italicMatches = italicRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            let italicMatches = italicRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
             for match in italicMatches.reversed() {
                 guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
                 let fullRange = Range(match.range, in: processedString)!
@@ -377,7 +377,7 @@ struct ScreenReaderTextWrapper: NSViewRepresentable {
             
             // 渲染行内代码
             let codeRegex = try NSRegularExpression(pattern: "`([^`]+)`", options: [])
-            var codeMatches = codeRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            let codeMatches = codeRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
             for match in codeMatches.reversed() {
                 guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
                 let fullRange = Range(match.range, in: processedString)!

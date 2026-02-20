@@ -205,7 +205,4 @@ struct EbookStatusBarView: View {
 
 // MARK: - Notification Names
 
-extension Notification.Name {
-    static let printEPUB = Notification.Name("printEPUB")
-    static let exportPDF = Notification.Name("exportPDF")
-}
+// 通知名称已在 ChatPrinterApp.swift 中统一一定义
