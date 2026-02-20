@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <!-- 白色背景 -->
+  <rect width="512" height="512" fill="#FFFFFF"/>
+  <!-- 黑色衬线字体 P -->
+  <text x="50%" y="55%" font-family="Georgia, 'Times New Roman', serif" font-size="380" font-weight="bold" text-anchor="middle" fill="#000000" dominant-baseline="middle">P</text>
+</svg>
