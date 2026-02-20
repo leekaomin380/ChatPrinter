@@ -13,11 +13,12 @@ for size in sizes {
     NSRect(x: 0, y: 0, width: size, height: size).fill()
     
     // 黑色衬线字体 P
-    let fontSize = Double(size) * 0.75
-    let font = NSFont(name: "Georgia", size: fontSize) ?? NSFont.systemFont(ofSize: fontSize, weight: .bold)
+    let fontSize = Double(size) * 0.7
+    let font = NSFont(name: "Times New Roman", size: fontSize) ?? NSFont(name: "Georgia", size: fontSize) ?? NSFont.systemFont(ofSize: fontSize, weight: .bold)
     let text = "P" as NSString
     
-    let textRect = NSRect(x: 0, y: 0, width: size, height: size)
+    // 居中绘制
+    let textRect = NSRect(x: 0, y: (size - Int(fontSize)) / 2, width: size, height: Int(fontSize))
     text.draw(in: textRect, withAttributes: [
         .font: font,
         .foregroundColor: NSColor.black
@@ -31,7 +32,7 @@ for size in sizes {
        let pngData = bitmap.representation(using: .png, properties: [:]) {
         let url = URL(fileURLWithPath: "\(outputDir)/icon_\(size)x\(size).png")
         try? pngData.write(to: url)
-        print("Created: icon_\(size)x\(size).png")
+        print("Created: icon_\(size)x\(size).png (\(size)x\(size))")
     }
 }
 
