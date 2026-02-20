@@ -157,19 +157,30 @@ struct EmptyEbookView: View {
 
 struct EPUBPreviewView: View {
     let fileURL: URL
-    
+    @State private var bookInfo: String = "正在解析..."
+
     var body: some View {
-        VStack {
-            Text("EPUB 预览")
-                .font(.headline)
-                .padding()
-            
-            Spacer()
-            
-            Text("EPUB 内容预览功能开发中...")
-                .foregroundColor(.secondary)
-            
-            Spacer()
+        ScrollView {
+            Text(bookInfo)
+                .font(.system(.body, design: .monospaced))
+                .padding(20)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .onAppear { parseEPUB() }
+        .onChange(of: fileURL) { _ in parseEPUB() }
+    }
+
+    private func parseEPUB() {
+        do {
+            let book = try EPUBParser().parse(url: fileURL)
+            var info = "书名：\(book.title)\n作者：\(book.creator)\n章节数：\(book.chapters.count)\n"
+            info += "\n--- 目录 ---\n"
+            for (i, chapter) in book.chapters.enumerated() {
+                info += "\(i + 1). \(chapter.title)\n"
+            }
+            bookInfo = info
+        } catch {
+            bookInfo = "解析失败：\(error.localizedDescription)"
         }
     }
 }
