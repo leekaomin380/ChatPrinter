@@ -184,6 +184,9 @@ struct SwiftUITextViewWrapper: NSViewRepresentable {
         textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         textView.isVerticallyResizable = true
         textView.isHorizontallyResizable = false
+        
+        // 设置文本容器边距，确保右边缘完整显示
+        textContainer.lineFragmentPadding = 10
 
         // 打印优化样式
         let font = NSFont(name: fontFamily, size: fontSize) ?? NSFont.systemFont(ofSize: fontSize)
@@ -287,10 +290,10 @@ struct SwiftUITextViewWrapper: NSViewRepresentable {
 
         @objc func handleRenderMarkdown(_ notification: Notification) {
             guard let textView = textView, !textView.string.isEmpty else { return }
-            
+
             do {
-                let attributedString = try renderMarkdown(textView.string)
-                textView.textStorage?.setAttributedString(attributedString)
+                let result = try renderMarkdown(textView.string)
+                textView.textStorage?.setAttributedString(result.attributedString)
                 parent.text = textView.string
             } catch {
                 print("Markdown 渲染失败：\(error)")
@@ -305,68 +308,125 @@ struct SwiftUITextViewWrapper: NSViewRepresentable {
         }
 
         /// 渲染 Markdown 格式
-        private func renderMarkdown(_ markdown: String) throws -> NSAttributedString {
-            // 先复制原文，避免修改原字符串导致索引问题
+        private func renderMarkdown(_ markdown: String) throws -> (attributedString: NSAttributedString, processedString: String) {
+            // 复制一份用于处理
             var processedString = markdown
-            let attributedString = NSMutableAttributedString(string: processedString)
             
             let font = NSFont(name: parent.fontFamily, size: parent.fontSize) ?? NSFont.systemFont(ofSize: parent.fontSize)
             let boldFont = NSFont(name: parent.fontFamily, size: parent.fontSize) ?? NSFont.boldSystemFont(ofSize: parent.fontSize)
             let codeFont = NSFont(name: "Menlo", size: parent.fontSize) ?? NSFont.monospacedSystemFont(ofSize: parent.fontSize, weight: .regular)
 
             // 全文档基础样式
+            let attributedString = NSMutableAttributedString(string: processedString)
             attributedString.addAttribute(.font, value: font, range: NSRange(location: 0, length: attributedString.length))
             attributedString.addAttribute(.foregroundColor, value: NSColor.black, range: NSRange(location: 0, length: attributedString.length))
 
-            // 渲染标题 (# ## ###)
+            // 渲染标题 (# ## ###) - 移除 # 符号
             let headerPatterns = [
-                ("^### (.+)$", 1.4),
-                ("^## (.+)$", 1.6),
-                ("^# (.+)$", 1.8)
+                ("^###\\s+(.+)$", 1.4),
+                ("^##\\s+(.+)$", 1.6),
+                ("^#\\s+(.+)$", 1.8)
             ]
 
             for (pattern, sizeMultiplier) in headerPatterns {
                 let regex = try NSRegularExpression(pattern: pattern, options: .anchorsMatchLines)
-                let matches = regex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+                var matches = regex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+                
+                // 从后向前处理，避免索引变化
                 for match in matches.reversed() {
-                    let fullNsRange = NSRange(location: match.range.location, length: match.range.length)
+                    guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
+                    let fullRange = Range(match.range, in: processedString)!
+                    let fullNsRange = NSRange(fullRange, in: processedString)
+                    let contentNsRange = NSRange(contentRange, in: processedString)
+                    
+                    // 添加标题样式
                     let headerFont = NSFont(name: parent.fontFamily, size: parent.fontSize * sizeMultiplier) ?? NSFont.boldSystemFont(ofSize: parent.fontSize * sizeMultiplier)
-                    attributedString.addAttribute(.font, value: headerFont, range: fullNsRange)
+                    attributedString.addAttribute(.font, value: headerFont, range: contentNsRange)
+                    
+                    // 移除 # 符号和前导空格
+                    let newContent = String(processedString[contentRange])
+                    attributedString.replaceCharacters(in: fullNsRange, with: newContent)
                 }
+                
+                // 更新字符串
+                processedString = attributedString.string
+                matches = regex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
             }
 
-            // 渲染粗体 (**text**) - 只添加属性，不删除标记
+            // 渲染粗体 (**text**) - 移除 ** 符号
             let boldRegex = try NSRegularExpression(pattern: "\\*\\*(.+?)\\*\\*", options: [])
-            let boldMatches = boldRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
-            for match in boldMatches {
-                if let contentRange = Range(match.range(at: 1), in: processedString) {
-                    let nsRange = NSRange(contentRange, in: attributedString.string)
-                    attributedString.addAttribute(.font, value: boldFont, range: nsRange)
-                }
+            var boldMatches = boldRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            for match in boldMatches.reversed() {
+                guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
+                let fullRange = Range(match.range, in: processedString)!
+                let fullNsRange = NSRange(fullRange, in: processedString)
+                let contentNsRange = NSRange(contentRange, in: processedString)
+                
+                // 添加粗体样式
+                attributedString.addAttribute(.font, value: boldFont, range: contentNsRange)
+                
+                // 移除 ** 符号
+                let newContent = String(processedString[contentRange])
+                attributedString.replaceCharacters(in: fullNsRange, with: newContent)
             }
+            processedString = attributedString.string
+            boldMatches = boldRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
 
-            // 渲染斜体 (*text*) - 只添加属性，不删除标记
-            let italicRegex = try NSRegularExpression(pattern: "\\*(?!\\*)(.+?)\\*(?!\\*)", options: [])
-            let italicMatches = italicRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
-            for match in italicMatches {
-                if let contentRange = Range(match.range(at: 1), in: processedString) {
-                    let nsRange = NSRange(contentRange, in: attributedString.string)
-                    attributedString.addAttribute(.obliqueness, value: 0.2, range: nsRange)
-                }
+            // 渲染无序列表 (* 项目 或 - 项目 或 + 项目) - 移除符号并添加圆点
+            // 注意：在斜体之前处理，避免冲突
+            let listRegex = try NSRegularExpression(pattern: "^[\\*\\-\\+]\\s+(.+)$", options: .anchorsMatchLines)
+            var listMatches = listRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            for match in listMatches.reversed() {
+                guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
+                let fullRange = Range(match.range, in: processedString)!
+                let fullNsRange = NSRange(fullRange, in: processedString)
+                
+                // 添加圆点前缀
+                let newContent = "• " + String(processedString[contentRange])
+                attributedString.replaceCharacters(in: fullNsRange, with: newContent)
             }
+            processedString = attributedString.string
+            listMatches = listRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
 
-            // 渲染行内代码 (`code`) - 只添加属性，不删除标记
+            // 渲染斜体 (*text*) - 移除 * 符号
+            let italicRegex = try NSRegularExpression(pattern: "\\*(.+?)\\*", options: [])
+            var italicMatches = italicRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            for match in italicMatches.reversed() {
+                guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
+                let fullRange = Range(match.range, in: processedString)!
+                let fullNsRange = NSRange(fullRange, in: processedString)
+                let contentNsRange = NSRange(contentRange, in: processedString)
+                
+                // 添加斜体样式
+                attributedString.addAttribute(.obliqueness, value: 0.2, range: contentNsRange)
+                
+                // 移除 * 符号
+                let newContent = String(processedString[contentRange])
+                attributedString.replaceCharacters(in: fullNsRange, with: newContent)
+            }
+            processedString = attributedString.string
+            italicMatches = italicRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+
+            // 渲染行内代码 (`code`) - 移除 ` 符号
             let codeRegex = try NSRegularExpression(pattern: "`([^`]+)`", options: [])
-            let codeMatches = codeRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
-            for match in codeMatches {
-                if let contentRange = Range(match.range(at: 1), in: processedString) {
-                    let nsRange = NSRange(contentRange, in: attributedString.string)
-                    attributedString.addAttribute(.font, value: codeFont, range: nsRange)
-                    attributedString.addAttribute(.backgroundColor, value: NSColor.lightGray.withAlphaComponent(0.2), range: nsRange)
-                }
+            var codeMatches = codeRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            for match in codeMatches.reversed() {
+                guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
+                let fullRange = Range(match.range, in: processedString)!
+                let fullNsRange = NSRange(fullRange, in: processedString)
+                let contentNsRange = NSRange(contentRange, in: processedString)
+                
+                // 添加代码样式
+                attributedString.addAttribute(.font, value: codeFont, range: contentNsRange)
+                attributedString.addAttribute(.backgroundColor, value: NSColor.lightGray.withAlphaComponent(0.2), range: contentNsRange)
+                
+                // 移除 ` 符号
+                let newContent = String(processedString[contentRange])
+                attributedString.replaceCharacters(in: fullNsRange, with: newContent)
             }
+            processedString = attributedString.string
 
-            return attributedString
+            return (attributedString, processedString)
         }
     }
 }
