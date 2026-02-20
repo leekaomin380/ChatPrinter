@@ -25,8 +25,9 @@
 - ✅ **打印增强** - 支持 EPUB 打印
 
 ### 技术实现
-- 添加 FolioReaderKit 依赖 (MIT License)
+- 使用原生 ZIP/XML 解析 EPUB（无需外部依赖）
 - 创建 PDFExportManager 管理 PDF 导出
+- 创建 EPUBParser 解析 EPUB 文件
 - 使用 PDFKit 生成带 Outline 的 PDF
 - 通知中心实现跨视图通信
 
@@ -37,15 +38,21 @@
   - `Views/ScreenReaderView.swift`
   - `Views/EbookReaderView.swift`
   - `Managers/PDFExportManager.swift`
+  - `Managers/EPUBParser.swift`
 - ⚠️ **EPUB 预览功能** - 待实现完整预览
-- ⚠️ **EPUB 到 PDF 转换** - 当前为测试实现，需要完整集成 FolioReaderKit
+- ⚠️ **EPUB 到 PDF 转换** - 当前为简化实现，需要优化
+
+### 依赖说明
+- ❌ **FolioReaderKit** - 因 Swift 工具版本过旧不兼容，已移除
+- ✅ **原生 EPUB 解析** - 使用系统 unzip + XMLDocument
+- ✅ **PDFKit** - Apple 原生框架，生成带目录的 PDF
 
 ### 未来计划
 - [ ] 在 Xcode 中添加新文件到项目
 - [ ] EPUB 完整预览功能
 - [ ] PDF 样式自定义
 - [ ] 章节导航优化
-- [ ] 完整集成 FolioReaderKit 解析 EPUB
+- [ ] 更完善的 EPUB 解析（CSS、图片等）
 
 ---
 
