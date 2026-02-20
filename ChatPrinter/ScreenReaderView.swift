@@ -7,28 +7,35 @@
 
 import SwiftUI
 import AppKit
+import Combine
+
+// MARK: - Action Manager
+
+class EditorActionManager: ObservableObject {
+    enum Action: Equatable {
+        case paste(String)
+        case print
+        case newDocument
+        case renderMarkdown
+    }
+
+    @Published var pendingAction: Action?
+}
+
+// MARK: - Parent View
 
 struct ScreenReaderView: View {
     @State private var fontSize: CGFloat = 14
     @State private var text = ""
     @State private var fontFamily: String = "Helvetica"
-    
+    @StateObject private var actionManager = EditorActionManager()
+
     var body: some View {
         VStack(spacing: 0) {
-            // 工具栏
-            ScreenReaderToolbarView(
-                fontSize: $fontSize,
-                fontFamily: $fontFamily
-            )
-            
+            ScreenReaderToolbarView(fontSize: $fontSize, fontFamily: $fontFamily, actionManager: actionManager)
             Divider()
-            
-            // 文本编辑区域
-            ScreenReaderTextView(text: $text, fontSize: $fontSize, fontFamily: $fontFamily)
-            
+            ScreenReaderTextView(text: $text, fontSize: $fontSize, fontFamily: $fontFamily, actionManager: actionManager)
             Divider()
-            
-            // 状态栏
             ScreenReaderStatusBar(characterCount: text.count)
         }
         .background(Color.white)
@@ -40,43 +47,32 @@ struct ScreenReaderView: View {
 struct ScreenReaderToolbarView: View {
     @Binding var fontSize: CGFloat
     @Binding var fontFamily: String
-    
+    @ObservedObject var actionManager: EditorActionManager
+
     var body: some View {
         HStack(spacing: 12) {
-            // 粘贴按钮
             Button(action: pasteFromClipboard) {
                 Label("粘贴", systemImage: "doc.on.clipboard")
             }
             .keyboardShortcut("v", modifiers: .command)
-            
-            // 打印按钮
-            Button(action: {
-                NotificationCenter.default.post(name: .printDocument, object: nil)
-            }) {
+
+            Button(action: { actionManager.pendingAction = .print }) {
                 Label("打印", systemImage: "printer")
             }
             .keyboardShortcut("p", modifiers: .command)
-            
+
             Divider()
-            
-            // Markdown 渲染按钮
-            Button(action: {
-                NotificationCenter.default.post(name: .renderMarkdown, object: nil)
-            }) {
+
+            Button(action: { actionManager.pendingAction = .renderMarkdown }) {
                 Label("渲染 MD", systemImage: "textformat.abc")
             }
-            .help("渲染 Markdown 格式")
-            
+
             Divider()
-            
-            // 字体选择
+
             Menu {
                 ForEach(["Helvetica", "STSong", "Times New Roman", "Georgia", "Courier New", "Arial"], id: \.self) { font in
-                    Button(action: {
-                        fontFamily = font
-                    }) {
+                    Button(action: { fontFamily = font }) {
                         Text(font)
-                            .font(.system(.body, design: font == "Courier New" ? .monospaced : .default))
                         if fontFamily == font {
                             Image(systemName: "checkmark")
                         }
@@ -85,32 +81,20 @@ struct ScreenReaderToolbarView: View {
             } label: {
                 Label("字体", systemImage: "textformat")
             }
-            
-            // 字体大小调节
+
             HStack(spacing: 4) {
-                Button(action: {
-                    fontSize = max(8, fontSize - 1)
-                }) {
+                Button(action: { fontSize = max(8, fontSize - 1) }) {
                     Image(systemName: "textformat.size.smaller")
                 }
-                
-                Text("\(Int(fontSize))pt")
-                    .frame(width: 50)
-                    .font(.system(.caption, design: .monospaced))
-                
-                Button(action: {
-                    fontSize = min(72, fontSize + 1)
-                }) {
+                Text("\(Int(fontSize))pt").frame(width: 50).font(.system(.caption, design: .monospaced))
+                Button(action: { fontSize = min(72, fontSize + 1) }) {
                     Image(systemName: "textformat.size.larger")
                 }
             }
-            
+
             Spacer()
-            
-            // 清除按钮
-            Button(action: {
-                NotificationCenter.default.post(name: .newDocument, object: nil)
-            }) {
+
+            Button(action: { actionManager.pendingAction = .newDocument }) {
                 Label("清除", systemImage: "trash")
             }
             .keyboardShortcut("d", modifiers: [.command, .shift])
@@ -118,31 +102,22 @@ struct ScreenReaderToolbarView: View {
         .padding(8)
         .background(Color(NSColor.controlBackgroundColor))
     }
-    
+
     private func pasteFromClipboard() {
         if let pasteboard = NSPasteboard.general.string(forType: .string) {
-            NotificationCenter.default.post(name: .pasteText, object: pasteboard)
+            actionManager.pendingAction = .paste(pasteboard)
         }
     }
 }
 
-// MARK: - Text Editor
+// MARK: - NSViewRepresentable Text View
 
-struct ScreenReaderTextView: View {
+struct ScreenReaderTextView: NSViewRepresentable {
     @Binding var text: String
     @Binding var fontSize: CGFloat
     @Binding var fontFamily: String
-    
-    var body: some View {
-        ScreenReaderTextWrapper(text: $text, fontSize: $fontSize, fontFamily: $fontFamily)
-    }
-}
+    @ObservedObject var actionManager: EditorActionManager
 
-struct ScreenReaderTextWrapper: NSViewRepresentable {
-    @Binding var text: String
-    @Binding var fontSize: CGFloat
-    @Binding var fontFamily: String
-    
     func makeNSView(context: Context) -> NSScrollView {
         let scrollView = NSScrollView()
         scrollView.hasVerticalScroller = true
@@ -150,19 +125,17 @@ struct ScreenReaderTextWrapper: NSViewRepresentable {
         scrollView.autohidesScrollers = true
         scrollView.borderType = .noBorder
         scrollView.drawsBackground = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // 创建文本视图
+
         let textStorage = NSTextStorage()
         let layoutManager = NSLayoutManager()
         let textContainer = NSTextContainer()
-        
+
         textStorage.addLayoutManager(layoutManager)
         layoutManager.addTextContainer(textContainer)
-        
+
         textContainer.widthTracksTextView = true
         textContainer.containerSize = NSSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
-        
+
         let textView = NSTextView(frame: .zero, textContainer: textContainer)
         textView.autoresizingMask = [.width]
         textView.isEditable = true
@@ -176,223 +149,142 @@ struct ScreenReaderTextWrapper: NSViewRepresentable {
         textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         textView.isVerticallyResizable = true
         textView.isHorizontallyResizable = false
-        
-        // 设置文本容器边距，确保右边缘完整显示
         textContainer.lineFragmentPadding = 10
-        
-        // 打印优化样式
+
         let font = NSFont(name: fontFamily, size: fontSize) ?? NSFont.systemFont(ofSize: fontSize)
         textView.font = font
         textView.textColor = NSColor.black
-        
-        // 段落样式：1.5 倍行距
+
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.5
         paragraphStyle.paragraphSpacing = 8
         textView.defaultParagraphStyle = paragraphStyle
-        
+
         scrollView.documentView = textView
-        context.coordinator.textView = textView
-        
-        // 监听通知
+
+        let coordinator = context.coordinator
+        coordinator.textView = textView
+        coordinator.fontSize = fontSize
+        coordinator.fontFamily = fontFamily
+
+        // Combine 订阅：Coordinator 直接响应 action 变化
+        coordinator.actionSubscription = actionManager.$pendingAction
+            .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak coordinator] action in
+                coordinator?.handleAction(action)
+                actionManager.pendingAction = nil
+            }
+
+        // App 菜单栏的通知（跨组件通信，保留 NotificationCenter）
         NotificationCenter.default.addObserver(
-            context.coordinator,
-            selector: #selector(context.coordinator.handlePaste(_:)),
-            name: .pasteText,
-            object: nil
-        )
-        
+            coordinator,
+            selector: #selector(coordinator.handleMenuPrint(_:)),
+            name: .printDocument, object: nil)
         NotificationCenter.default.addObserver(
-            context.coordinator,
-            selector: #selector(context.coordinator.handlePrint(_:)),
-            name: .printDocument,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            context.coordinator,
-            selector: #selector(context.coordinator.handleNew(_:)),
-            name: .newDocument,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            context.coordinator,
-            selector: #selector(context.coordinator.handleRenderMarkdown(_:)),
-            name: .renderMarkdown,
-            object: nil
-        )
-        
+            coordinator,
+            selector: #selector(coordinator.handleMenuNew(_:)),
+            name: .newDocument, object: nil)
+
         return scrollView
     }
-    
-    func updateNSView(_ nsView: NSScrollView, context: Context) {
-        if let textView = context.coordinator.textView {
+
+    func updateNSView(_ scrollView: NSScrollView, context: Context) {
+        let coordinator = context.coordinator
+        coordinator.fontSize = fontSize
+        coordinator.fontFamily = fontFamily
+
+        // 只在非富文本渲染状态下更新字体
+        if !coordinator.isRendered, let textView = scrollView.documentView as? NSTextView {
             let font = NSFont(name: fontFamily, size: fontSize) ?? NSFont.systemFont(ofSize: fontSize)
             textView.font = font
         }
     }
-    
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
+
     class Coordinator: NSObject, NSTextViewDelegate {
-        var parent: ScreenReaderTextWrapper
-        weak var textView: NSTextView?
-        
-        init(_ parent: ScreenReaderTextWrapper) {
+        var parent: ScreenReaderTextView
+        var textView: NSTextView?
+        var fontSize: CGFloat = 14
+        var fontFamily: String = "Helvetica"
+        var isRendered = false
+        var actionSubscription: AnyCancellable?
+
+        init(_ parent: ScreenReaderTextView) {
             self.parent = parent
         }
-        
+
         func textDidChange(_ notification: Notification) {
-            parent.text = textView?.string ?? ""
+            guard let tv = textView else { return }
+            parent.text = tv.string
+            isRendered = false
         }
-        
-        @objc func handlePaste(_ notification: Notification) {
-            guard let newText = notification.object as? String,
-                  let textView = textView else { return }
-            
-            let currentText = textView.string
-            if currentText.isEmpty {
-                textView.string = newText
-            } else {
-                textView.string = currentText + "\n\n" + newText
-            }
-            textView.didChangeText()
-            parent.text = textView.string
-        }
-        
-        @objc func handlePrint(_ notification: Notification) {
-            guard let textView = textView else { return }
-            PrintManager.shared.printTextView(textView)
-        }
-        
-        @objc func handleNew(_ notification: Notification) {
-            textView?.string = ""
-            parent.text = ""
-        }
-        
-        @objc func handleRenderMarkdown(_ notification: Notification) {
-            guard let textView = textView, !textView.string.isEmpty else { return }
-            
-            do {
-                let result = try renderMarkdown(textView.string)
-                textView.textStorage?.setAttributedString(result.attributedString)
-                parent.text = textView.string
-            } catch {
-                print("Markdown 渲染失败：\(error)")
-                let alert = NSAlert()
-                alert.messageText = "渲染失败"
-                alert.informativeText = "Markdown 格式解析失败，请检查格式是否正确"
-                alert.alertStyle = .warning
-                alert.addButton(withTitle: "确定")
-                alert.runModal()
+
+        func handleAction(_ action: EditorActionManager.Action) {
+            switch action {
+            case .paste(let newText):
+                handlePaste(newText)
+            case .print:
+                handlePrint()
+            case .newDocument:
+                handleNewDocument()
+            case .renderMarkdown:
+                handleRenderMarkdown()
             }
         }
-        
-        private func renderMarkdown(_ markdown: String) throws -> (attributedString: NSAttributedString, processedString: String) {
-            var processedString = markdown
-            
-            let font = NSFont(name: parent.fontFamily, size: parent.fontSize) ?? NSFont.systemFont(ofSize: parent.fontSize)
-            let boldFont = NSFont(name: parent.fontFamily, size: parent.fontSize) ?? NSFont.boldSystemFont(ofSize: parent.fontSize)
-            let codeFont = NSFont(name: "Menlo", size: parent.fontSize) ?? NSFont.monospacedSystemFont(ofSize: parent.fontSize, weight: .regular)
-            
-            let attributedString = NSMutableAttributedString(string: processedString)
-            attributedString.addAttribute(.font, value: font, range: NSRange(location: 0, length: attributedString.length))
-            attributedString.addAttribute(.foregroundColor, value: NSColor.black, range: NSRange(location: 0, length: attributedString.length))
-            
-            // 渲染标题
-            let headerPatterns = [
-                ("^###\\s+(.+)$", 1.4),
-                ("^##\\s+(.+)$", 1.6),
-                ("^#\\s+(.+)$", 1.8)
-            ]
-            
-            for (pattern, sizeMultiplier) in headerPatterns {
-                let regex = try NSRegularExpression(pattern: pattern, options: .anchorsMatchLines)
-                var matches = regex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
-                
-                for match in matches.reversed() {
-                    guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
-                    let fullRange = Range(match.range, in: processedString)!
-                    let fullNsRange = NSRange(fullRange, in: processedString)
-                    let contentNsRange = NSRange(contentRange, in: processedString)
-                    
-                    let headerFont = NSFont(name: parent.fontFamily, size: parent.fontSize * sizeMultiplier) ?? NSFont.boldSystemFont(ofSize: parent.fontSize * sizeMultiplier)
-                    attributedString.addAttribute(.font, value: headerFont, range: contentNsRange)
-                    
-                    let newContent = String(processedString[contentRange])
-                    attributedString.replaceCharacters(in: fullNsRange, with: newContent)
+
+        private func handlePaste(_ newText: String) {
+            guard let tv = textView else { return }
+            let currentText = tv.string
+            tv.string = currentText.isEmpty ? newText : currentText + "\n\n" + newText
+            tv.didChangeText()
+        }
+
+        private func handlePrint() {
+            guard let tv = textView else { return }
+            PrintManager.shared.printTextView(tv)
+        }
+
+        private func handleNewDocument() {
+            guard let tv = textView else { return }
+            tv.string = ""
+            tv.didChangeText()
+            isRendered = false
+        }
+
+        private func handleRenderMarkdown() {
+            guard let tv = textView, !tv.string.isEmpty else { return }
+
+            let sourceText = tv.string
+            let family = fontFamily
+            let size = fontSize
+
+            DispatchQueue.global(qos: .userInitiated).async {
+                let attributedString = MarkdownRenderer.render(sourceText, fontFamily: family, fontSize: size)
+
+                DispatchQueue.main.async { [weak self] in
+                    tv.textStorage?.setAttributedString(attributedString)
+                    tv.didChangeText()
+                    self?.isRendered = true
+                    self?.parent.text = tv.string
                 }
-                
-                processedString = attributedString.string
-                matches = regex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
             }
-            
-            // 渲染无序列表
-            let listRegex = try NSRegularExpression(pattern: "^[\\*\\-\\+]\\s+(.+)$", options: .anchorsMatchLines)
-            let listMatches = listRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
-            for match in listMatches.reversed() {
-                guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
-                let fullRange = Range(match.range, in: processedString)!
-                let fullNsRange = NSRange(fullRange, in: processedString)
-                
-                let newContent = "• " + String(processedString[contentRange])
-                attributedString.replaceCharacters(in: fullNsRange, with: newContent)
-            }
-            processedString = attributedString.string
-            
-            // 渲染粗体
-            let boldRegex = try NSRegularExpression(pattern: "\\*\\*(.+?)\\*\\*", options: [])
-            let boldMatches = boldRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
-            for match in boldMatches.reversed() {
-                guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
-                let fullRange = Range(match.range, in: processedString)!
-                let fullNsRange = NSRange(fullRange, in: processedString)
-                let contentNsRange = NSRange(contentRange, in: processedString)
-                
-                attributedString.addAttribute(.font, value: boldFont, range: contentNsRange)
-                
-                let newContent = String(processedString[contentRange])
-                attributedString.replaceCharacters(in: fullNsRange, with: newContent)
-            }
-            processedString = attributedString.string
-            
-            // 渲染斜体
-            let italicRegex = try NSRegularExpression(pattern: "\\*(.+?)\\*", options: [])
-            let italicMatches = italicRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
-            for match in italicMatches.reversed() {
-                guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
-                let fullRange = Range(match.range, in: processedString)!
-                let fullNsRange = NSRange(fullRange, in: processedString)
-                let contentNsRange = NSRange(contentRange, in: processedString)
-                
-                attributedString.addAttribute(.obliqueness, value: 0.2, range: contentNsRange)
-                
-                let newContent = String(processedString[contentRange])
-                attributedString.replaceCharacters(in: fullNsRange, with: newContent)
-            }
-            processedString = attributedString.string
-            
-            // 渲染行内代码
-            let codeRegex = try NSRegularExpression(pattern: "`([^`]+)`", options: [])
-            let codeMatches = codeRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
-            for match in codeMatches.reversed() {
-                guard let contentRange = Range(match.range(at: 1), in: processedString) else { continue }
-                let fullRange = Range(match.range, in: processedString)!
-                let fullNsRange = NSRange(fullRange, in: processedString)
-                let contentNsRange = NSRange(contentRange, in: processedString)
-                
-                attributedString.addAttribute(.font, value: codeFont, range: contentNsRange)
-                attributedString.addAttribute(.backgroundColor, value: NSColor.lightGray.withAlphaComponent(0.2), range: contentNsRange)
-                
-                let newContent = String(processedString[contentRange])
-                attributedString.replaceCharacters(in: fullNsRange, with: newContent)
-            }
-            processedString = attributedString.string
-            
-            return (attributedString, processedString)
+        }
+
+        @objc func handleMenuPrint(_ notification: Notification) {
+            handlePrint()
+        }
+
+        @objc func handleMenuNew(_ notification: Notification) {
+            handleNewDocument()
+        }
+
+        deinit {
+            actionSubscription?.cancel()
+            NotificationCenter.default.removeObserver(self)
         }
     }
 }
@@ -401,25 +293,15 @@ struct ScreenReaderTextWrapper: NSViewRepresentable {
 
 struct ScreenReaderStatusBar: View {
     let characterCount: Int
-    
+
     var body: some View {
         HStack {
-            Text("字符数：\(characterCount)")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            
+            Text("字符数：\(characterCount)").font(.caption).foregroundColor(.secondary)
             Spacer()
-            
-            Text("打印到电子纸")
-                .font(.caption)
-                .foregroundColor(.secondary)
+            Text("打印到电子纸").font(.caption).foregroundColor(.secondary)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
         .background(Color(NSColor.controlBackgroundColor))
     }
 }
-
-// MARK: - Notification Names
-
-// 通知名称已在 ChatPrinterApp.swift 中定义

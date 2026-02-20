@@ -16,6 +16,7 @@
 		A1000009 = {isa = PBXBuildFile; fileRef = A2000009; };
 		A100000A = {isa = PBXBuildFile; fileRef = A200000A; };
 		A100000B = {isa = PBXBuildFile; fileRef = A200000B; };
+		A100000C = {isa = PBXBuildFile; fileRef = A200000C; };
 		A2000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPrinterApp.swift; sourceTree = "<group>"; };
 		A2000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A2000003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintManager.swift; sourceTree = "<group>"; };
@@ -27,6 +28,7 @@
 		A2000009 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBParser.swift; sourceTree = "<group>"; };
 		A200000A = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A200000B = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A200000C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderer.swift; sourceTree = "<group>"; };
 		A3000001 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatPrinter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5000001 = {
 			isa = PBXGroup;
@@ -35,7 +37,7 @@
 		};
 		A5000002 = {
 			isa = PBXGroup;
-			children = (A2000001, A2000002, A2000003, A2000004, A2000005, A2000006, A2000007, A2000008, A2000009, A200000A, A200000B);
+			children = (A2000001, A2000002, A2000003, A2000004, A2000005, A2000006, A2000007, A2000008, A2000009, A200000C, A200000A, A200000B);
 			path = ChatPrinter;
 			sourceTree = "<group>";
 		};
@@ -65,7 +67,7 @@
 			targets = (A6000001);
 		};
 		A4000001 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		A8000001 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A1000001, A1000002, A1000003, A1000004, A1000005, A1000006, A1000007, A1000008, A1000009); runOnlyForDeploymentPostprocessing = 0; };
+		A8000001 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A1000001, A1000002, A1000003, A1000004, A1000005, A1000006, A1000007, A1000008, A1000009, A100000C); runOnlyForDeploymentPostprocessing = 0; };
 		A9000001 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A100000A); runOnlyForDeploymentPostprocessing = 0; };
 		A7000001 = {isa = XCConfigurationList; buildConfigurations = (AB000001, AB000002); defaultConfigurationIsVisible = 0; defaultConfigurationIsName = Debug; };
 		A7000003 = {isa = XCConfigurationList; buildConfigurations = (AC000001, AC000002); defaultConfigurationIsVisible = 0; defaultConfigurationIsName = Debug; };

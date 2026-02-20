@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-// 通知名称扩展
+// 通知名称（仅用于 App 菜单栏等跨组件通信）
 extension Notification.Name {
     static let newDocument = Notification.Name("newDocument")
     static let printDocument = Notification.Name("printDocument")
-    static let pasteText = Notification.Name("pasteText")
-    static let renderMarkdown = Notification.Name("renderMarkdown")
     static let printEPUB = Notification.Name("printEPUB")
     static let exportPDF = Notification.Name("exportPDF")
 }

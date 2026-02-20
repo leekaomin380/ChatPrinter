@@ -7,6 +7,30 @@
 
 ---
 
+## [2.0.0] - 2026-02-20
+
+### 修复
+- **编译失败** — 删除 `Notification.Name` 在两个文件中的重复定义（v1.9.0 以来项目无法编译的根本原因）
+- **重复文件** — 删除根目录多余的 `MarkdownRenderer.swift`，保留 Managers 版本
+- **渲染闪退** — 修复 `applyInlineFormats` 中处理粗体后字符串变短导致斜体/代码正则越界崩溃
+- **斜体 API 错误** — `NSFontDescriptor.TraitKey.style` 不存在，改用 `withSymbolicTraits(.italic)`
+- **打印按钮无效** — 改用 Combine 订阅替代 `updateNSView` 转发，确保所有操作可靠触发
+- **关于页面无法关闭** — 添加关闭按钮和 `@Environment(\.dismiss)`
+- **关于页面图标显示不全** — 改用 `NSApp.applicationIconImage` 显示应用真实图标
+- **线程安全** — `handleRenderMarkdown` 改为主线程取值、后台渲染，避免在后台线程访问 NSTextView
+- **富文本被覆盖** — `updateNSView` 不再在渲染后强制重设字体
+
+### 架构改善
+- **通信机制重构** — 视图内通信从 NotificationCenter 改为 ObservableObject + Combine，消除 Coordinator 生命周期隐患
+- **Coordinator 过期引用** — fontSize/fontFamily 作为 Coordinator 属性，在 `updateNSView` 中同步
+- App 菜单栏通知保留 NotificationCenter（跨组件通信场景合理）
+- Coordinator 添加 `deinit` 清理 observer，防止内存泄漏
+
+### 版本号
+- Info.plist 版本号从 1.9.0 更新为 2.0.0
+
+---
+
 ## [1.9.0] - 2026-02-20
 
 ### 新增

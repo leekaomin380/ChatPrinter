@@ -8,20 +8,23 @@
 import SwiftUI
 
 struct AboutView: View {
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         VStack(spacing: 20) {
             // 应用图标
-            Image(systemName: "printer.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 80, height: 80)
-                .foregroundColor(.blue)
-            
+            if let icon = NSApp.applicationIconImage {
+                Image(nsImage: icon)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 80, height: 80)
+            }
+
             // 应用名称
             Text("ChatPrinter")
                 .font(.title)
                 .fontWeight(.bold)
-            
+
             // 版本号
             HStack {
                 Text("版本")
@@ -30,27 +33,25 @@ struct AboutView: View {
             }
             .font(.caption)
             .foregroundColor(.secondary)
-            
+
             Divider()
-            
+
             // 应用描述
             Text("将 AI 聊天记录和电子书打印到电子纸的 macOS 应用")
                 .font(.body)
                 .multilineTextAlignment(.center)
-            
+
             // 致谢
             VStack(alignment: .leading, spacing: 12) {
                 Text("致谢")
                     .font(.headline)
-                
-                // EPUB 库致谢
+
                 HStack(alignment: .top, spacing: 8) {
                     Text("•")
                     Text("感谢 FolioReaderKit 提供的 EPUB 解析功能 (MIT License)")
                 }
                 .font(.caption)
-                
-                // 硬件致谢
+
                 HStack(alignment: .top, spacing: 8) {
                     Text("•")
                     VStack(alignment: .leading, spacing: 2) {
@@ -60,16 +61,20 @@ struct AboutView: View {
                     .font(.caption)
                 }
             }
-            
+
             Spacer()
-            
+
+            // 关闭按钮
+            Button("关闭") { dismiss() }
+                .keyboardShortcut(.defaultAction)
+
             // 版权信息
             Text("© 2026 ChatPrinter. All rights reserved.")
                 .font(.caption2)
                 .foregroundColor(.secondary)
         }
         .padding(40)
-        .frame(width: 400, height: 350)
+        .frame(width: 400, height: 380)
     }
     
     private var versionNumber: String {
