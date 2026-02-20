@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+*.xcworkspace
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/project.lockfiles/
+*.xcuserdatad/
+DerivedData/
+build/
+*.swiftpm/
+.swiftpm/
+*.o
+*.a
+*.app
+*.dSYM/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# 日志
+*.log
+
+# 临时文件
+*.tmp
+*.temp
