@@ -5,6 +5,7 @@
 | 版本 | 日期 | 作者 | 变更说明 |
 |------|------|------|----------|
 | 0.1.0 | 2026-02-20 | - | 初始版本，核心功能实现 |
+| 0.1.1 | 2026-02-20 | - | 完整 Swift 实现：可编辑、格式保留、无限制打印 |
 
 ## 架构设计
 
@@ -18,28 +19,33 @@
 
 ```
 ChatPrinter/
-├── ChatPrinterApp.swift      # 应用入口
-├── ContentView.swift         # 主界面视图
-├── PrintManager.swift        # 打印功能管理
-├── Assets.xcassets           # 资源文件
-└── Info.plist               # 应用配置
+├── ChatPrinter.xcodeproj       # Xcode 项目
+├── ChatPrinter/
+│   ├── ChatPrinterApp.swift    # 应用入口
+│   ├── ContentView.swift       # 主界面视图
+│   ├── PrintManager.swift      # 打印功能管理
+│   ├── Assets.xcassets         # 资源文件
+│   ├── Info.plist             # 应用配置
+│   └── ChatPrinter.entitlements # 沙盒权限
+├── README.md
+├── TECHNICAL.md
+└── .gitignore
 ```
 
 ## 核心模块
 
 ### 1. 主界面 (ContentView)
 
-```swift
-// 功能组件
-- NSTextView: 可编辑文本区域
-- 工具栏：粘贴、打印、清除按钮
-- 字体大小调节
-```
+**功能组件**:
+- NSTextView: 可编辑、可格式化文本区域
+- 工具栏：粘贴、打印、清除、字体调节
+- 状态栏：字数统计
 
 **设计原则**:
 - 极简主义，无干扰
 - 打印预览即所得
 - 纯白背景，黑色文字
+- 支持 Markdown 格式保留
 
 ### 2. 打印管理 (PrintManager)
 
