@@ -79,7 +79,7 @@ struct ToolbarView: View {
 
             // 字体选择
             Menu {
-                ForEach(["Helvetica", "Times New Roman", "Georgia", "Courier New", "Arial"], id: \.self) { font in
+                ForEach(["Helvetica", "STSong", "Times New Roman", "Georgia", "Courier New", "Arial"], id: \.self) { font in
                     Button(action: {
                         fontFamily = font
                     }) {
@@ -288,14 +288,28 @@ struct SwiftUITextViewWrapper: NSViewRepresentable {
         @objc func handleRenderMarkdown(_ notification: Notification) {
             guard let textView = textView, !textView.string.isEmpty else { return }
             
-            let attributedString = renderMarkdown(textView.string)
-            textView.textStorage?.setAttributedString(attributedString)
-            parent.text = textView.string
+            do {
+                let attributedString = try renderMarkdown(textView.string)
+                textView.textStorage?.setAttributedString(attributedString)
+                parent.text = textView.string
+            } catch {
+                print("Markdown 渲染失败：\(error)")
+                // 渲染失败时显示提示
+                let alert = NSAlert()
+                alert.messageText = "渲染失败"
+                alert.informativeText = "Markdown 格式解析失败，请检查格式是否正确"
+                alert.alertStyle = .warning
+                alert.addButton(withTitle: "确定")
+                alert.runModal()
+            }
         }
 
         /// 渲染 Markdown 格式
-        private func renderMarkdown(_ markdown: String) -> NSAttributedString {
-            let attributedString = NSMutableAttributedString(string: markdown)
+        private func renderMarkdown(_ markdown: String) throws -> NSAttributedString {
+            // 先复制原文，避免修改原字符串导致索引问题
+            var processedString = markdown
+            let attributedString = NSMutableAttributedString(string: processedString)
+            
             let font = NSFont(name: parent.fontFamily, size: parent.fontSize) ?? NSFont.systemFont(ofSize: parent.fontSize)
             let boldFont = NSFont(name: parent.fontFamily, size: parent.fontSize) ?? NSFont.boldSystemFont(ofSize: parent.fontSize)
             let codeFont = NSFont(name: "Menlo", size: parent.fontSize) ?? NSFont.monospacedSystemFont(ofSize: parent.fontSize, weight: .regular)
@@ -312,59 +326,43 @@ struct SwiftUITextViewWrapper: NSViewRepresentable {
             ]
 
             for (pattern, sizeMultiplier) in headerPatterns {
-                if let regex = try? NSRegularExpression(pattern: pattern, options: .anchorsMatchLines) {
-                    let matches = regex.matches(in: markdown, range: NSRange(markdown.startIndex..., in: markdown))
-                    for match in matches.reversed() {
-                        if let range = Range(match.range(at: 1), in: markdown) {
-                            let nsRange = NSRange(range, in: attributedString.string)
-                            let headerFont = NSFont(name: parent.fontFamily, size: parent.fontSize * sizeMultiplier) ?? NSFont.boldSystemFont(ofSize: parent.fontSize * sizeMultiplier)
-                            attributedString.addAttribute(.font, value: headerFont, range: nsRange)
-                            attributedString.addAttribute(.font, value: headerFont, range: NSRange(location: match.range.location, length: match.range.length))
-                        }
-                    }
+                let regex = try NSRegularExpression(pattern: pattern, options: .anchorsMatchLines)
+                let matches = regex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+                for match in matches.reversed() {
+                    let fullNsRange = NSRange(location: match.range.location, length: match.range.length)
+                    let headerFont = NSFont(name: parent.fontFamily, size: parent.fontSize * sizeMultiplier) ?? NSFont.boldSystemFont(ofSize: parent.fontSize * sizeMultiplier)
+                    attributedString.addAttribute(.font, value: headerFont, range: fullNsRange)
                 }
             }
 
-            // 渲染粗体 (**text**)
-            if let boldRegex = try? NSRegularExpression(pattern: "\\*\\*(.+?)\\*\\*", options: []) {
-                let matches = boldRegex.matches(in: markdown, range: NSRange(markdown.startIndex..., in: markdown))
-                for match in matches.reversed() {
-                    if let contentRange = Range(match.range(at: 1), in: markdown) {
-                        let nsRange = NSRange(contentRange, in: attributedString.string)
-                        attributedString.addAttribute(.font, value: boldFont, range: nsRange)
-                    }
-                    // 移除 ** 标记
-                    let fullRange = Range(match.range, in: markdown)
-                    if let fullRange = fullRange {
-                        let fullNsRange = NSRange(fullRange, in: attributedString.string)
-                        attributedString.replaceCharacters(in: fullNsRange, with: String(markdown[fullRange]).replacingOccurrences(of: "**", with: ""))
-                    }
+            // 渲染粗体 (**text**) - 只添加属性，不删除标记
+            let boldRegex = try NSRegularExpression(pattern: "\\*\\*(.+?)\\*\\*", options: [])
+            let boldMatches = boldRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            for match in boldMatches {
+                if let contentRange = Range(match.range(at: 1), in: processedString) {
+                    let nsRange = NSRange(contentRange, in: attributedString.string)
+                    attributedString.addAttribute(.font, value: boldFont, range: nsRange)
                 }
             }
 
-            // 渲染斜体 (*text*)
-            if let italicRegex = try? NSRegularExpression(pattern: "\\*(?!\\*)(.+?)\\*(?!\\*)", options: []) {
-                let matches = italicRegex.matches(in: markdown, range: NSRange(markdown.startIndex..., in: markdown))
-                for match in matches.reversed() {
-                    if let contentRange = Range(match.range(at: 1), in: markdown) {
-                        let nsRange = NSRange(contentRange, in: attributedString.string)
-                        // 使用斜体字体
-                        let italicFont = NSFont.systemFont(ofSize: parent.fontSize, weight: .regular)
-                        attributedString.addAttribute(.font, value: italicFont, range: nsRange)
-                        attributedString.addAttribute(.obliqueness, value: 0.2, range: nsRange)
-                    }
+            // 渲染斜体 (*text*) - 只添加属性，不删除标记
+            let italicRegex = try NSRegularExpression(pattern: "\\*(?!\\*)(.+?)\\*(?!\\*)", options: [])
+            let italicMatches = italicRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            for match in italicMatches {
+                if let contentRange = Range(match.range(at: 1), in: processedString) {
+                    let nsRange = NSRange(contentRange, in: attributedString.string)
+                    attributedString.addAttribute(.obliqueness, value: 0.2, range: nsRange)
                 }
             }
 
-            // 渲染行内代码 (`code`)
-            if let codeRegex = try? NSRegularExpression(pattern: "`` (.+?) ``", options: []) {
-                let matches = codeRegex.matches(in: markdown, range: NSRange(markdown.startIndex..., in: markdown))
-                for match in matches.reversed() {
-                    if let contentRange = Range(match.range(at: 1), in: markdown) {
-                        let nsRange = NSRange(contentRange, in: attributedString.string)
-                        attributedString.addAttribute(.font, value: codeFont, range: nsRange)
-                        attributedString.addAttribute(.backgroundColor, value: NSColor.lightGray.withAlphaComponent(0.2), range: nsRange)
-                    }
+            // 渲染行内代码 (`code`) - 只添加属性，不删除标记
+            let codeRegex = try NSRegularExpression(pattern: "`([^`]+)`", options: [])
+            let codeMatches = codeRegex.matches(in: processedString, range: NSRange(processedString.startIndex..., in: processedString))
+            for match in codeMatches {
+                if let contentRange = Range(match.range(at: 1), in: processedString) {
+                    let nsRange = NSRange(contentRange, in: attributedString.string)
+                    attributedString.addAttribute(.font, value: codeFont, range: nsRange)
+                    attributedString.addAttribute(.backgroundColor, value: NSColor.lightGray.withAlphaComponent(0.2), range: nsRange)
                 }
             }
 

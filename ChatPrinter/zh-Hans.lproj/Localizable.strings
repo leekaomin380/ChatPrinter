@@ -1,0 +1,16 @@
+/* 
+  ChatPrinter 中文本地化文件
+*/
+
+"Print" = "打印";
+"Paste" = "粘贴";
+"Clear" = "清除";
+"Render MD" = "渲染 MD";
+"Font" = "字体";
+"Characters: " = "字符数：";
+"Print to E-paper" = "打印到电子纸";
+"No content to print" = "没有可打印的内容";
+"Please paste chat history first" = "请先粘贴聊天记录";
+"Render Failed" = "渲染失败";
+"Markdown parse failed, please check format" = "Markdown 格式解析失败，请检查格式是否正确";
+"OK" = "确定";

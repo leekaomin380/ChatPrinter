@@ -18,17 +18,17 @@ class PrintManager {
             showAlert(message: "没有可打印的内容", informativeText: "请先粘贴聊天记录")
             return
         }
-        
+
         // 配置打印信息
         let printInfo = NSPrintInfo.shared
         setupPrintInfo(printInfo)
-        
+
         // 创建打印操作
         let printView = createPrintView(from: textView)
         let operation = NSPrintOperation(view: printView, printInfo: printInfo)
         operation.showsPrintPanel = true
         operation.showsProgressPanel = true
-        
+
         // 执行打印
         operation.run()
     }
