@@ -8,7 +8,7 @@ import AppKit
 
 struct ContentView: View {
     @State private var fontSize: CGFloat = 12
-    @State private var wordCount: Int = 0
+    @State private var text = ""
     
     var body: some View {
         VStack(spacing: 0) {
@@ -18,31 +18,19 @@ struct ContentView: View {
             Divider()
             
             // 文本编辑区域
-            TextEditorView(fontSize: $fontSize, wordCount: $wordCount)
+            TextEditorView(text: $text, fontSize: $fontSize)
             
             Divider()
             
             // 状态栏
-            StatusBarView(wordCount: wordCount)
+            StatusBarView(characterCount: text.count)
         }
         .background(Color.white)
         .onReceive(NotificationCenter.default.publisher(for: .newDocument)) { _ in
-            clearText()
+            text = ""
         }
         .onReceive(NotificationCenter.default.publisher(for: .printDocument)) { _ in
-            printDocument()
-        }
-    }
-    
-    private func clearText() {
-        if let textView = NSApp.keyWindow?.contentView?.firstSubview(where: { $0 is NSTextView }) as? NSTextView {
-            textView.string = ""
-        }
-    }
-    
-    private func printDocument() {
-        if let textView = NSApp.keyWindow?.contentView?.firstSubview(where: { $0 is NSTextView }) as? NSTextView {
-            PrintManager.shared.printTextView(textView)
+            // 打印由 TextEditorView 内部处理
         }
     }
 }
@@ -72,15 +60,19 @@ struct ToolbarView: View {
             
             // 字体大小调节
             HStack(spacing: 4) {
-                Button(action: decreaseFontSize) {
+                Button(action: {
+                    fontSize = max(8, fontSize - 1)
+                }) {
                     Image(systemName: "textformat.size.smaller")
                 }
                 
                 Text("\(Int(fontSize))pt")
                     .frame(width: 40)
-                    .font(.system(.caption, monospaced: true))
+                    .font(.system(.caption, design: .monospaced))
                 
-                Button(action: increaseFontSize) {
+                Button(action: {
+                    fontSize = min(72, fontSize + 1)
+                }) {
                     Image(systemName: "textformat.size.larger")
                 }
             }
@@ -100,31 +92,8 @@ struct ToolbarView: View {
     }
     
     private func pasteFromClipboard() {
-        if let pasteboard = NSPasteboard.general.string(forType: .string),
-           let textView = NSApp.keyWindow?.contentView?.firstSubview(where: { $0 is NSTextView }) as? NSTextView {
-            let currentText = textView.string
-            if currentText.isEmpty {
-                textView.string = pasteboard
-            } else {
-                textView.string = currentText + "\n\n" + pasteboard
-            }
-            textView.didChangeText()
-        }
-    }
-    
-    private func decreaseFontSize() {
-        fontSize = max(8, fontSize - 1)
-        updateTextViewFont()
-    }
-    
-    private func increaseFontSize() {
-        fontSize = min(72, fontSize + 1)
-        updateTextViewFont()
-    }
-    
-    private func updateTextViewFont() {
-        if let textView = NSApp.keyWindow?.contentView?.firstSubview(where: { $0 is NSTextView }) as? NSTextView {
-            textView.font = NSFont.systemFont(ofSize: fontSize)
+        if let pasteboard = NSPasteboard.general.string(forType: .string) {
+            NotificationCenter.default.post(name: .pasteText, object: pasteboard)
         }
     }
 }
@@ -132,37 +101,20 @@ struct ToolbarView: View {
 // MARK: - Text Editor
 
 struct TextEditorView: View {
+    @Binding var text: String
     @Binding var fontSize: CGFloat
-    @Binding var wordCount: Int
     
     var body: some View {
-        GeometryReader { geometry in
-            SwiftUITextViewWrapper(fontSize: fontSize, wordCount: $wordCount)
-                .frame(width: geometry.size.width, height: geometry.size.height)
-        }
+        SwiftUITextViewWrapper(text: $text, fontSize: $fontSize)
     }
 }
 
-class SwiftUITextViewWrapper: NSView {
-    private var textView: NSTextView!
-    private var scrollView: NSScrollView!
+struct SwiftUITextViewWrapper: NSViewRepresentable {
+    @Binding var text: String
     @Binding var fontSize: CGFloat
-    @Binding var wordCount: Int
     
-    init(fontSize: Binding<CGFloat>, wordCount: Binding<Int>) {
-        _fontSize = fontSize
-        _wordCount = wordCount
-        super.init(frame: .zero)
-        setupTextView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupTextView() {
-        // 创建滚动视图
-        scrollView = NSScrollView()
+    func makeNSView(context: Context) -> NSScrollView {
+        let scrollView = NSScrollView()
         scrollView.hasVerticalScroller = true
         scrollView.hasHorizontalScroller = false
         scrollView.autohidesScrollers = true
@@ -178,15 +130,16 @@ class SwiftUITextViewWrapper: NSView {
         layoutManager.addTextContainer(textContainer)
         
         textContainer.widthTracksTextView = true
-        textContainer.containerSize = NSSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)
+        textContainer.containerSize = NSSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
         
-        textView = NSTextView(frame: .zero, textContainer: textContainer)
+        let textView = NSTextView(frame: .zero, textContainer: textContainer)
         textView.autoresizingMask = [.width]
         textView.isEditable = true
         textView.isSelectable = true
         textView.drawsBackground = true
         textView.backgroundColor = NSColor.white
         textView.textContainerInset = NSSize(width: 20, height: 15)
+        textView.delegate = context.coordinator
         
         // 打印优化样式
         textView.font = NSFont.systemFont(ofSize: fontSize)
@@ -195,45 +148,94 @@ class SwiftUITextViewWrapper: NSView {
         // 段落样式：1.5 倍行距
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.5
-        paragraphStyle.headIndent = 0
-        paragraphStyle.tailIndent = 0
-        
         textView.defaultParagraphStyle = paragraphStyle
         
-        // 代理用于字数统计
-        textView.delegate = self
-        
         scrollView.documentView = textView
+        context.coordinator.textView = textView
         
-        // 添加子视图
-        addSubview(scrollView)
+        // 监听粘贴通知
+        NotificationCenter.default.addObserver(
+            context.coordinator,
+            selector: #selector(context.coordinator.handlePaste(_:)),
+            name: .pasteText,
+            object: nil
+        )
+        
+        // 监听打印通知
+        NotificationCenter.default.addObserver(
+            context.coordinator,
+            selector: #selector(context.coordinator.handlePrint(_:)),
+            name: .printDocument,
+            object: nil
+        )
+        
+        // 监听新建通知
+        NotificationCenter.default.addObserver(
+            context.coordinator,
+            selector: #selector(context.coordinator.handleNew(_:)),
+            name: .newDocument,
+            object: nil
+        )
+        
+        return scrollView
     }
     
-    override func layout() {
-        super.layout()
-        scrollView.frame = bounds
+    func updateNSView(_ nsView: NSScrollView, context: Context) {
+        if let textView = context.coordinator.textView {
+            textView.font = NSFont.systemFont(ofSize: fontSize)
+        }
     }
     
-    private func updateWordCount() {
-        let text = textView?.string ?? ""
-        wordCount = text.count
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
     }
-}
-
-extension SwiftUITextViewWrapper: NSTextViewDelegate {
-    func textDidChange(_ notification: Notification) {
-        updateWordCount()
+    
+    class Coordinator: NSObject, NSTextViewDelegate {
+        var parent: SwiftUITextViewWrapper
+        weak var textView: NSTextView?
+        
+        init(_ parent: SwiftUITextViewWrapper) {
+            self.parent = parent
+        }
+        
+        func textDidChange(_ notification: Notification) {
+            parent.text = textView?.string ?? ""
+        }
+        
+        @objc func handlePaste(_ notification: Notification) {
+            guard let newText = notification.object as? String,
+                  let textView = textView else { return }
+            
+            let currentText = textView.string
+            if currentText.isEmpty {
+                textView.string = newText
+            } else {
+                textView.string = currentText + "\n\n" + newText
+            }
+            textView.didChangeText()
+            parent.text = textView.string
+        }
+        
+        @objc func handlePrint(_ notification: Notification) {
+            guard let textView = textView else { return }
+            PrintManager.shared.printTextView(textView)
+        }
+        
+        @objc func handleNew(_ notification: Notification) {
+            textView?.string = ""
+            parent.text = ""
+        }
     }
 }
 
 // MARK: - Status Bar
 
 struct StatusBarView: View {
-    let wordCount: Int
+    let characterCount: Int
     
     var body: some View {
         HStack {
-            Text("字符数：\(wordCount)")
+            Text("字符数：\(characterCount)")
                 .font(.caption)
                 .foregroundColor(.secondary)
             
@@ -249,16 +251,8 @@ struct StatusBarView: View {
     }
 }
 
-// MARK: - Helper Extensions
+// MARK: - Notification Names
 
-extension NSView {
-    func firstSubview(where predicate: (NSView) -> Bool) -> NSView? {
-        if predicate(self) { return self }
-        for subview in subviews {
-            if let found = subview.firstSubview(where: predicate) {
-                return found
-            }
-        }
-        return nil
-    }
+extension Notification.Name {
+    static let pasteText = Notification.Name("pasteText")
 }

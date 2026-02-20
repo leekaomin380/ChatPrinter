@@ -40,14 +40,11 @@ class PrintManager {
         printInfo.leftMargin = 36     // 0.5 英寸
         printInfo.rightMargin = 36    // 0.5 英寸
         printInfo.bottomMargin = 36   // 0.5 英寸
-        
+
         // 不居中，从左上角开始
         printInfo.isHorizontallyCentered = false
         printInfo.isVerticallyCentered = false
-        
-        // 缩放比例
-        printInfo.scaleFactor = 1.0
-        
+
         // 打印方向（自动）
         printInfo.orientation = .portrait
     }
@@ -81,11 +78,11 @@ class PrintManager {
         
         // 自动调整大小
         printTextView.autoresizingMask = [.width]
-        
+
         // 计算所需高度
-        layoutManager.glyphRange(forTextContainer: textContainer)
-        let textHeight = layoutManager.usedRect(forTextContainer: textContainer).height
-        
+        layoutManager.glyphRange(for: textContainer)
+        let textHeight = layoutManager.usedRect(for: textContainer).height
+
         container.frame = NSRect(x: 0, y: 0, width: 540, height: max(textHeight, 100))
         printTextView.frame = container.bounds
         
