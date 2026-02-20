@@ -7,6 +7,48 @@
 
 ---
 
+## [2.0.0] - 2026-02-20
+
+### 新增
+- ✅ **双业务线架构** - 屏幕阅读助手 + 电子书助手
+- ✅ **侧边栏导航** - 固定宽度 200pt，切换两种模式
+- ✅ **电子书助手** - 支持导入 EPUB 文件
+- ✅ **PDF 导出功能** - 导出 EPUB 为 PDF，带进度条
+- ✅ **关于页面** - 显示版本号、致谢信息
+  - 感谢 FolioReaderKit (MIT License)
+  - 感谢富士通 reMarkable 电子纸设备
+- ✅ **PDF 目录书签** - 使用 PDFKit 生成可点击目录
+
+### 改进
+- ✅ **界面重构** - ContentView 作为主容器
+- ✅ **代码组织** - 按功能模块划分 Views
+- ✅ **打印增强** - 支持 EPUB 打印
+
+### 技术实现
+- 添加 FolioReaderKit 依赖 (MIT License)
+- 创建 PDFExportManager 管理 PDF 导出
+- 使用 PDFKit 生成带 Outline 的 PDF
+- 通知中心实现跨视图通信
+
+### 已知问题
+- ⚠️ **Xcode 项目文件未更新** - 需要在 Xcode 中手动添加新文件到项目
+  - `Views/AboutView.swift`
+  - `Views/SidebarView.swift`
+  - `Views/ScreenReaderView.swift`
+  - `Views/EbookReaderView.swift`
+  - `Managers/PDFExportManager.swift`
+- ⚠️ **EPUB 预览功能** - 待实现完整预览
+- ⚠️ **EPUB 到 PDF 转换** - 当前为测试实现，需要完整集成 FolioReaderKit
+
+### 未来计划
+- [ ] 在 Xcode 中添加新文件到项目
+- [ ] EPUB 完整预览功能
+- [ ] PDF 样式自定义
+- [ ] 章节导航优化
+- [ ] 完整集成 FolioReaderKit 解析 EPUB
+
+---
+
 ## [1.1.2] - 2026-02-20
 
 ### 新增
