@@ -1,0 +1,1068 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+    "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down_Down.bundle/DownView (macOS).bundle" : {
+      "inputs" : [
+        {
+          "kind" : "directory",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Resources/DownView (macOS).bundle"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "directory",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down_Down.bundle/DownView (macOS).bundle"
+        }
+      ]
+    },
+    "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down_Down.bundle/DownView.bundle" : {
+      "inputs" : [
+        {
+          "kind" : "directory",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Resources/DownView.bundle"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "directory",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down_Down.bundle/DownView.bundle"
+        }
+      ]
+    }
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.Down-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/sources",
+      "importPath" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/BaseNode.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/BlockQuote.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/ChildSequence.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Code.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CodeBlock.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CustomBlock.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CustomInline.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Document.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Emphasis.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Heading.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/HtmlBlock.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/HtmlInline.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Image.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Item.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/LineBreak.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Link.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/List.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Node.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Paragraph.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/SoftBreak.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Strong.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Text.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/ThematicBreak.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/ColorCollection.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/FontCollection.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/ParagraphStyleCollection.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/BlockBackgroundColorAttribute.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/QuoteStripeAttribute.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/ThematicBreakAttribute.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/CGPoint+Translate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/CGRect+Helpers.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/NSAttributedString+Helpers.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/NSMutableAttributedString+Attributes.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/UIFont+Traits.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/ListItemParagraphStyler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Layout Managers/DownDebugLayoutManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Layout Managers/DownLayoutManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/CodeBlockOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/ListItemOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/QuoteStripeOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/ThematicBreakOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/DownStyler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/DownStylerConfiguration.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/Styler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Text Views/DownDebugTextView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Text Views/DownTextView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/AttributedStringVisitor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/DebugVisitor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/ListItemPrefixGenerator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/Visitor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Down.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Enums & Options/DownErrors.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Enums & Options/DownOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Extensions/NSAttributedString+HTML.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Extensions/String+ToHTML.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownASTRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownAttributedStringRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownCommonMarkRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownGroffRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownHTMLRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownLaTeXRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownXMLRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Views/BundleHelper.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Views/DownView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DerivedSources/resource_bundle_accessor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<Down-arm64-apple-macosx26.0-debug.module-resources>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/buffer.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/chunk.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/cmark.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/cmark_ctype.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/cmark_export.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/cmark_version.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/config.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/houdini.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/inlines.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/iterator.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/node.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/parser.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/references.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/render.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/scanners.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark/utf8.h"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "Down",
+      "moduleOutputPath" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Modules/Down.swiftmodule",
+      "objects" : [
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/BaseNode.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/BlockQuote.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ChildSequence.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Code.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/CodeBlock.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/CustomBlock.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/CustomInline.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Document.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Emphasis.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Heading.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/HtmlBlock.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/HtmlInline.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Image.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Item.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/LineBreak.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Link.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/List.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Node.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Paragraph.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/SoftBreak.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Strong.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Text.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ThematicBreak.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ColorCollection.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/FontCollection.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ParagraphStyleCollection.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/BlockBackgroundColorAttribute.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/QuoteStripeAttribute.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ThematicBreakAttribute.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/CGPoint+Translate.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/CGRect+Helpers.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/NSAttributedString+Helpers.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/NSMutableAttributedString+Attributes.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/UIFont+Traits.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ListItemParagraphStyler.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownDebugLayoutManager.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownLayoutManager.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/CodeBlockOptions.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ListItemOptions.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/QuoteStripeOptions.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ThematicBreakOptions.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownStyler.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownStylerConfiguration.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Styler.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownDebugTextView.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownTextView.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/AttributedStringVisitor.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DebugVisitor.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/ListItemPrefixGenerator.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Visitor.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/Down.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownErrors.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownOptions.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/NSAttributedString+HTML.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/String+ToHTML.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownASTRenderable.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownAttributedStringRenderable.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownCommonMarkRenderable.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownGroffRenderable.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownHTMLRenderable.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownLaTeXRenderable.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownRenderable.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownXMLRenderable.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/BundleHelper.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DownView.swift.o",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/resource_bundle_accessor.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/libcmark.build/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark",
+        "-module-cache-path",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/include/Down-Swift.h",
+        "-swift-version",
+        "5",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-suppress-warnings"
+      ],
+      "outputFileMapPath" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Modules/Down.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/BaseNode.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/BlockQuote.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/ChildSequence.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Code.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CodeBlock.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CustomBlock.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CustomInline.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Document.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Emphasis.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Heading.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/HtmlBlock.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/HtmlInline.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Image.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Item.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/LineBreak.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Link.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/List.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Node.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Paragraph.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/SoftBreak.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Strong.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Text.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/ThematicBreak.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/ColorCollection.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/FontCollection.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/ParagraphStyleCollection.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/BlockBackgroundColorAttribute.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/QuoteStripeAttribute.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/ThematicBreakAttribute.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/CGPoint+Translate.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/CGRect+Helpers.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/NSAttributedString+Helpers.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/NSMutableAttributedString+Attributes.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/UIFont+Traits.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/ListItemParagraphStyler.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Layout Managers/DownDebugLayoutManager.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Layout Managers/DownLayoutManager.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/CodeBlockOptions.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/ListItemOptions.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/QuoteStripeOptions.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/ThematicBreakOptions.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/DownStyler.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/DownStylerConfiguration.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/Styler.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Text Views/DownDebugTextView.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Text Views/DownTextView.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/AttributedStringVisitor.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/DebugVisitor.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/ListItemPrefixGenerator.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/Visitor.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Down.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Enums & Options/DownErrors.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Enums & Options/DownOptions.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Extensions/NSAttributedString+HTML.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Extensions/String+ToHTML.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownASTRenderable.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownAttributedStringRenderable.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownCommonMarkRenderable.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownGroffRenderable.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownHTMLRenderable.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownLaTeXRenderable.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownRenderable.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownXMLRenderable.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Views/BundleHelper.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Views/DownView.swift",
+        "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DerivedSources/resource_bundle_accessor.swift"
+      ],
+      "tempsPath" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "Down" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "Down",
+      "-c",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/BaseNode.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/BlockQuote.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/ChildSequence.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Code.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CodeBlock.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CustomBlock.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CustomInline.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Document.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Emphasis.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Heading.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/HtmlBlock.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/HtmlInline.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Image.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Item.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/LineBreak.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Link.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/List.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Node.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Paragraph.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/SoftBreak.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Strong.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Text.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/ThematicBreak.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/ColorCollection.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/FontCollection.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/ParagraphStyleCollection.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/BlockBackgroundColorAttribute.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/QuoteStripeAttribute.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/ThematicBreakAttribute.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/CGPoint+Translate.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/CGRect+Helpers.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/NSAttributedString+Helpers.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/NSMutableAttributedString+Attributes.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/UIFont+Traits.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/ListItemParagraphStyler.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Layout Managers/DownDebugLayoutManager.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Layout Managers/DownLayoutManager.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/CodeBlockOptions.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/ListItemOptions.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/QuoteStripeOptions.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/ThematicBreakOptions.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/DownStyler.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/DownStylerConfiguration.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/Styler.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Text Views/DownDebugTextView.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Text Views/DownTextView.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/AttributedStringVisitor.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/DebugVisitor.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/ListItemPrefixGenerator.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/Visitor.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Down.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Enums & Options/DownErrors.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Enums & Options/DownOptions.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Extensions/NSAttributedString+HTML.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Extensions/String+ToHTML.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownASTRenderable.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownAttributedStringRenderable.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownCommonMarkRenderable.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownGroffRenderable.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownHTMLRenderable.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownLaTeXRenderable.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownRenderable.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownXMLRenderable.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Views/BundleHelper.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Views/DownView.swift",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DerivedSources/resource_bundle_accessor.swift",
+      "-I",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+      "-Xcc",
+      "-fmodule-map-file=/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/libcmark.build/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/cmark",
+      "-module-cache-path",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/include/Down-Swift.h",
+      "-swift-version",
+      "5",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-suppress-warnings",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "Down" : [
+      "libcmark"
+    ],
+    "libcmark" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/BaseNode.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/BlockQuote.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/ChildSequence.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Code.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CodeBlock.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CustomBlock.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/CustomInline.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Document.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Emphasis.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Heading.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/HtmlBlock.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/HtmlInline.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Image.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Item.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/LineBreak.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Link.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/List.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Node.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Paragraph.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/SoftBreak.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Strong.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/Text.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Nodes/ThematicBreak.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/ColorCollection.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/FontCollection.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Attribute Collections/ParagraphStyleCollection.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/BlockBackgroundColorAttribute.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/QuoteStripeAttribute.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Custom Attributes/ThematicBreakAttribute.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/CGPoint+Translate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/CGRect+Helpers.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/NSAttributedString+Helpers.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/NSMutableAttributedString+Attributes.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/Extensions/UIFont+Traits.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Helpers/ListItemParagraphStyler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Layout Managers/DownDebugLayoutManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Layout Managers/DownLayoutManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/CodeBlockOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/ListItemOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/QuoteStripeOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Options/ThematicBreakOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/DownStyler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/DownStylerConfiguration.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Stylers/Styler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Text Views/DownDebugTextView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Styling/Text Views/DownTextView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/AttributedStringVisitor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/DebugVisitor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/ListItemPrefixGenerator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/AST/Visitors/Visitor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Down.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Enums & Options/DownErrors.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Enums & Options/DownOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Extensions/NSAttributedString+HTML.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Extensions/String+ToHTML.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownASTRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownAttributedStringRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownCommonMarkRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownGroffRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownHTMLRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownLaTeXRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Renderers/DownXMLRenderable.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Views/BundleHelper.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/checkouts/Down/Sources/Down/Views/DownView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/DerivedSources/resource_bundle_accessor.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/Down.build/sources"
+    },
+    "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/gm/projects/ChatPrinter/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

@@ -7,237 +7,238 @@
 
 import Foundation
 import AppKit
-import PDFKit
 
 class EPUBParser {
-    
-    enum EPUBError: Error {
+
+    enum EPUBError: Error, LocalizedError {
         case invalidFormat
         case cannotUnzip
         case noContent
+
+        var errorDescription: String? {
+            switch self {
+            case .invalidFormat: return "EPUB 格式无效"
+            case .cannotUnzip: return "无法解压 EPUB 文件"
+            case .noContent: return "EPUB 中没有内容"
+            }
+        }
     }
-    
+
     struct EPUBBook {
         var title: String
         var creator: String
         var chapters: [EPUBChapter]
-        var ncxItems: [NCXItem]
     }
-    
-    struct EPUBChapter {
+
+    struct EPUBChapter: Identifiable {
+        let id = UUID()
         var title: String
-        var content: String
+        var content: String  // 原始 HTML
         var fileName: String
     }
-    
-    struct NCXItem {
-        var title: String
-        var src: String
-        var playOrder: String
-    }
-    
-    /// 解析 EPUB 文件
-    /// - Parameter url: EPUB 文件路径
-    /// - Returns: EPUBBook 对象
+
+    // MARK: - 解析
+
     func parse(url: URL) throws -> EPUBBook {
-        // EPUB 本质是 ZIP 文件
         let tempDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
-        
-        // 解压 EPUB
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
         try unzipEPUB(from: url, to: tempDir)
-        
-        // 解析 OPF 文件获取元数据和章节
+
         let opfFile = try findOPFFile(in: tempDir)
-        let metadata = try parseOPF(file: opfFile, basePath: tempDir)
-        
-        // 清理临时文件
-        try? FileManager.default.removeItem(at: tempDir)
-        
-        return metadata
+        return try parseOPF(file: opfFile)
     }
-    
-    /// 解压 EPUB 文件
+
+    // MARK: - ZIP 解压
+
     private func unzipEPUB(from source: URL, to destination: URL) throws {
-        // 使用 Process 调用系统 unzip 命令
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/unzip")
         process.arguments = ["-o", "-q", source.path, "-d", destination.path]
         try process.run()
         process.waitUntilExit()
+        guard process.terminationStatus == 0 else { throw EPUBError.cannotUnzip }
     }
-    
-    /// 查找 OPF 文件
+
+    // MARK: - OPF 定位
+
     private func findOPFFile(in directory: URL) throws -> URL {
-        // 首先查找 container.xml
         let containerURL = directory.appendingPathComponent("META-INF/container.xml")
         let containerData = try Data(contentsOf: containerURL)
         let containerXML = try XMLDocument(data: containerData)
-        
-        // 获取 rootfile 的 full-path
-        if let rootfiles = try containerXML.nodes(forXPath: "//rootfile") as? [XMLElement],
+
+        if let rootfiles = try containerXML.nodes(forXPath: "//*[local-name()='rootfile']") as? [XMLElement],
            let rootfile = rootfiles.first,
            let fullPath = rootfile.attribute(forName: "full-path")?.stringValue {
             return directory.appendingPathComponent(fullPath)
         }
-        
+
         throw EPUBError.invalidFormat
     }
-    
-    /// 解析 OPF 文件
-    private func parseOPF(file: URL, basePath: URL) throws -> EPUBBook {
+
+    // MARK: - OPF 解析
+
+    private func parseOPF(file: URL) throws -> EPUBBook {
         let data = try Data(contentsOf: file)
         let xml = try XMLDocument(data: data)
-        
-        // 解析元数据
-        var title = "未知标题"
-        var creator = "未知作者"
-        
-        if let titles = try xml.nodes(forXPath: "//metadata/dc:title") as? [XMLElement],
-           let titleElement = titles.first {
-            title = titleElement.stringValue ?? "未知标题"
-        }
-        
-        if let creators = try xml.nodes(forXPath: "//metadata/dc:creator") as? [XMLElement],
-           let creatorElement = creators.first {
-            creator = creatorElement.stringValue ?? "未知作者"
-        }
-        
-        // 解析 manifest 获取所有文件
-        var manifestItems: [String: String] = [:] // id -> href
-        if let manifests = try xml.nodes(forXPath: "//manifest/item") as? [XMLElement] {
-            for item in manifests {
+        let opfDir = file.deletingLastPathComponent()
+
+        // 元数据
+        let title = (try? xml.nodes(forXPath: "//*[local-name()='title']"))?.first?.stringValue ?? "未知标题"
+        let creator = (try? xml.nodes(forXPath: "//*[local-name()='creator']"))?.first?.stringValue ?? "未知作者"
+
+        // manifest: id → href
+        var manifestItems: [String: String] = [:]
+        if let items = try? xml.nodes(forXPath: "//*[local-name()='manifest']/*[local-name()='item']") as? [XMLElement] {
+            for item in items {
                 if let id = item.attribute(forName: "id")?.stringValue,
                    let href = item.attribute(forName: "href")?.stringValue {
                     manifestItems[id] = href
                 }
             }
         }
-        
-        // 解析 spine 获取阅读顺序
+
+        // spine: 阅读顺序
         var spineItems: [String] = []
-        if let spines = try xml.nodes(forXPath: "//spine/itemref") as? [XMLElement] {
-            for item in spines {
-                if let idref = item.attribute(forName: "idref")?.stringValue {
+        if let refs = try? xml.nodes(forXPath: "//*[local-name()='spine']/*[local-name()='itemref']") as? [XMLElement] {
+            for ref in refs {
+                if let idref = ref.attribute(forName: "idref")?.stringValue {
                     spineItems.append(idref)
                 }
             }
         }
-        
-        // 解析 NCX 目录
-        var ncxItems: [NCXItem] = []
-        if let navMaps = try xml.nodes(forXPath: "//navMap/navPoint") as? [XMLElement] {
-            ncxItems = parseNavPoints(navMaps)
+
+        // NCX 目录标题 (src → title)
+        var ncxTitles: [String: String] = [:]
+        if let ncxHref = findNCXHref(in: manifestItems, xml: xml) {
+            let ncxURL = opfDir.appendingPathComponent(ncxHref)
+            ncxTitles = parseNCXTitles(at: ncxURL)
         }
-        
-        // 加载章节内容
+
+        // 加载章节
         var chapters: [EPUBChapter] = []
         for idref in spineItems {
-            if let href = manifestItems[idref] {
-                let chapterURL = file.deletingLastPathComponent().appendingPathComponent(href)
-                do {
-                    let content = try String(contentsOf: chapterURL, encoding: .utf8)
-                    chapters.append(EPUBChapter(
-                        title: href,
-                        content: content,
-                        fileName: href
-                    ))
-                } catch {
-                    print("无法加载章节：\(href)")
-                }
-            }
+            guard let href = manifestItems[idref] else { continue }
+            let chapterURL = opfDir.appendingPathComponent(href)
+            guard let content = try? String(contentsOf: chapterURL, encoding: .utf8) else { continue }
+
+            // 用 NCX 标题匹配，找不到则从 HTML <title> 提取，最后用文件名
+            let chapterTitle = matchNCXTitle(href: href, ncxTitles: ncxTitles)
+                ?? extractHTMLTitle(from: content)
+                ?? hrefToTitle(href)
+
+            chapters.append(EPUBChapter(title: chapterTitle, content: content, fileName: href))
         }
-        
-        return EPUBBook(
-            title: title,
-            creator: creator,
-            chapters: chapters,
-            ncxItems: ncxItems
-        )
+
+        guard !chapters.isEmpty else { throw EPUBError.noContent }
+
+        return EPUBBook(title: title, creator: creator, chapters: chapters)
     }
-    
-    /// 解析 NCX 导航点
-    private func parseNavPoints(_ elements: [XMLElement], parent: String = "") -> [NCXItem] {
-        var items: [NCXItem] = []
-        
+
+    // MARK: - NCX 解析
+
+    private func findNCXHref(in manifest: [String: String], xml: XMLDocument) -> String? {
+        // 方式1: spine 的 toc 属性指向 NCX id
+        if let spines = try? xml.nodes(forXPath: "//*[local-name()='spine']") as? [XMLElement],
+           let spine = spines.first,
+           let tocId = spine.attribute(forName: "toc")?.stringValue,
+           let href = manifest[tocId] {
+            return href
+        }
+        // 方式2: manifest 中 media-type 为 ncx 的项
+        for (_, href) in manifest where href.hasSuffix(".ncx") {
+            return href
+        }
+        return nil
+    }
+
+    private func parseNCXTitles(at url: URL) -> [String: String] {
+        guard let data = try? Data(contentsOf: url),
+              let xml = try? XMLDocument(data: data) else { return [:] }
+
+        var titles: [String: String] = [:]
+        if let navPoints = try? xml.nodes(forXPath: "//*[local-name()='navPoint']") as? [XMLElement] {
+            collectNavPointTitles(navPoints, into: &titles)
+        }
+        return titles
+    }
+
+    private func collectNavPointTitles(_ elements: [XMLElement], into titles: inout [String: String]) {
         for element in elements {
-            var title = ""
-            var src = ""
-            var playOrder = ""
-            
-            if let label = try? element.nodes(forXPath: "navLabel/labelText").first as? XMLElement {
-                title = label.stringValue ?? ""
+            let label = (try? element.nodes(forXPath: "*[local-name()='navLabel']/*[local-name()='text']"))?.first?.stringValue ?? ""
+            if let contentEl = (try? element.nodes(forXPath: "*[local-name()='content']"))?.first as? XMLElement,
+               let src = contentEl.attribute(forName: "src")?.stringValue,
+               !label.isEmpty {
+                // 去掉锚点 (chapter1.xhtml#section1 → chapter1.xhtml)
+                let cleanSrc = src.components(separatedBy: "#").first ?? src
+                // 只保留第一个匹配（章节标题），不让后续小节标题覆盖
+                if titles[cleanSrc] == nil {
+                    titles[cleanSrc] = label
+                }
             }
-            
-            if let content = try? element.nodes(forXPath: "content").first as? XMLElement,
-               let contentSrc = content.attribute(forName: "src")?.stringValue {
-                src = contentSrc
-            }
-            
-            if let playOrderAttr = element.attribute(forName: "playOrder")?.stringValue {
-                playOrder = playOrderAttr
-            }
-            
-            if !src.isEmpty {
-                items.append(NCXItem(title: title, src: src, playOrder: playOrder))
-            }
-            
-            // 递归解析子导航点
-            if let childNavPoints = try? element.nodes(forXPath: "navPoint") as? [XMLElement] {
-                items.append(contentsOf: parseNavPoints(childNavPoints, parent: title))
+            // 递归子节点
+            if let children = try? element.nodes(forXPath: "*[local-name()='navPoint']") as? [XMLElement] {
+                collectNavPointTitles(children, into: &titles)
             }
         }
-        
-        return items
     }
-    
-    /// 导出为 PDF（简化版本 - 占位实现）
-    func exportToPDF(book: EPUBBook, to url: URL, progressHandler: ((Double) -> Void)?, completion: @escaping (Bool, Error?) -> Void) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            // 模拟进度
-            for i in 0...10 {
-                Thread.sleep(forTimeInterval: 0.05)
-                progressHandler?(Double(i) / 10.0)
-            }
-            
-            // 创建空 PDF 作为占位
-            // TODO: 未来版本实现完整的 EPUB 到 PDF 转换
-            let pdfInfo: [String: Any] = [
-                kCGPDFContextCreator as String: "ChatPrinter",
-                kCGPDFContextTitle as String: book.title
-            ]
-            
-            let data = NSMutableData()
-            guard let consumer = CGDataConsumer(data: data as CFMutableData) else {
-                DispatchQueue.main.async {
-                    completion(false, nil)
-                }
-                return
-            }
-            
-            guard let context = CGContext(consumer: consumer, mediaBox: nil, pdfInfo as CFDictionary) else {
-                DispatchQueue.main.async {
-                    completion(false, nil)
-                }
-                return
-            }
-            
-            // 添加封面页
-            context.beginPDFPage(nil)
-            context.endPDFPage()
-            
-            context.closePDF()
-            
-            do {
-                try data.write(to: url)
-                DispatchQueue.main.async {
-                    completion(true, nil)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    completion(false, error)
-                }
-            }
+
+    private func matchNCXTitle(href: String, ncxTitles: [String: String]) -> String? {
+        // 精确匹配
+        if let title = ncxTitles[href] { return title }
+        // 文件名匹配（NCX 中的 src 可能包含路径前缀）
+        let fileName = URL(fileURLWithPath: href).lastPathComponent
+        for (src, title) in ncxTitles {
+            if URL(fileURLWithPath: src).lastPathComponent == fileName { return title }
         }
+        return nil
+    }
+
+    private func extractHTMLTitle(from html: String) -> String? {
+        guard let titleRange = html.range(of: "<title>"),
+              let endRange = html.range(of: "</title>") else { return nil }
+        let title = String(html[titleRange.upperBound..<endRange.lowerBound])
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return title.isEmpty ? nil : title
+    }
+
+    private func hrefToTitle(_ href: String) -> String {
+        URL(fileURLWithPath: href).deletingPathExtension().lastPathComponent
+            .replacingOccurrences(of: "_", with: " ")
+            .replacingOccurrences(of: "-", with: " ")
+    }
+
+    // MARK: - HTML → NSAttributedString
+
+    static func htmlToAttributedString(_ html: String, fontFamily: String, fontSize: CGFloat) -> NSAttributedString {
+        // 注入基础样式，统一字体字号
+        let styledHTML = """
+        <html><head><style>
+        body { font-family: '\(fontFamily)', sans-serif; font-size: \(fontSize)px;
+               line-height: 1.6; color: #000; }
+        h1 { font-size: \(fontSize * 2.0)px; }
+        h2 { font-size: \(fontSize * 1.7)px; }
+        h3 { font-size: \(fontSize * 1.4)px; }
+        h4, h5, h6 { font-size: \(fontSize * 1.2)px; }
+        pre, code { font-family: Menlo, monospace; font-size: \(fontSize * 0.9)px; }
+        blockquote { color: #444; padding-left: 12px; border-left: 3px solid #ccc; }
+        </style></head><body>\(html)</body></html>
+        """
+
+        guard let data = styledHTML.data(using: .utf8) else {
+            return NSAttributedString(string: html)
+        }
+
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue
+        ]
+
+        if let attributed = try? NSAttributedString(data: data, options: options, documentAttributes: nil) {
+            return attributed
+        }
+
+        return NSAttributedString(string: html)
     }
 }

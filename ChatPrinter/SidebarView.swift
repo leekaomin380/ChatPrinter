@@ -30,12 +30,7 @@ enum AppMode: String, CaseIterable {
     }
     
     var color: Color {
-        switch self {
-        case .screenReader:
-            return .blue
-        case .ebookReader:
-            return .purple
-        }
+        return .blue
     }
 }
 
@@ -101,11 +96,11 @@ struct ModeButton: View {
                 Image(systemName: mode.icon)
                     .frame(width: 20)
                     .foregroundColor(isSelected ? .white : mode.color)
-                
+
                 Text(mode.title)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(isSelected ? .white : .primary)
-                
+
                 if isSelected {
                     Image(systemName: "chevron.right")
                         .font(.caption)
@@ -114,12 +109,14 @@ struct ModeButton: View {
             }
             .padding(.vertical, 10)
             .padding(.horizontal, 12)
+            .contentShape(Rectangle())
             .background(
                 RoundedRectangle(cornerRadius: 6)
                     .fill(isSelected ? mode.color : Color.clear)
             )
         }
         .buttonStyle(.plain)
+        .focusable(false)
     }
 }
 
